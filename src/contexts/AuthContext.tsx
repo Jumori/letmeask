@@ -2,24 +2,26 @@ import { createContext, ReactNode, useState, useEffect } from 'react'
 
 import { auth, firebase } from '../services/firebase'
 
-type AuthContextType = {
-  user: User | undefined;
-  signInWithGoogle: () => Promise<User | null>;
+type User = {
+  id: string
+  name: string
+  avatar: string
 }
 
-type User = {
-  id: string;
-  name: string;
-  avatar: string;
+export type AuthContextType = {
+  user: User | undefined
+  signInWithGoogle: () => Promise<User | null>
 }
 
 type AuthContextProviderProps = {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export const AuthContext = createContext({} as AuthContextType)
 
-export function AuthContextProvider(props: AuthContextProviderProps) {
+export function AuthContextProvider(
+  props: AuthContextProviderProps,
+): JSX.Element {
   const [user, setUser] = useState<User>()
 
   useEffect(() => {
@@ -40,6 +42,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         }
       } catch (error) {
         console.log(error)
+        alert('Invalid user.')
       }
     })
 
