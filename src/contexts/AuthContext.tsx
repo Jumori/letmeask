@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useState, useEffect } from 'react'
+import toast from 'react-hot-toast'
 
 import { auth, firebase } from '../services/firebase'
 
@@ -42,7 +43,7 @@ export function AuthContextProvider(
         }
       } catch (error) {
         console.log(error)
-        alert('Invalid user.')
+        toast.error('Ops! Parece que sua conta não possui nome de apresentação e/ou foto')
       }
     })
 

@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 import illustrationImg from '../assets/images/illustration.svg'
 import logoImg from '../assets/images/logo.svg'
@@ -26,7 +27,7 @@ export function Home(): JSX.Element {
     } else {
       const userStatus = await signInWithGoogle()
       if (!userStatus) {
-        return alert('Authentication failed.')
+        return toast.error('Não foi possível realizar login')
       }
 
       history.push('/rooms/new')
@@ -41,7 +42,7 @@ export function Home(): JSX.Element {
     const roomRef = await database.ref(`rooms/${roomCode}`).get()
 
     if (!roomRef.exists()) {
-      return alert('Room does not exists.')
+      return toast.error('Sala inválida')
     }
 
     history.push(`/rooms/${roomCode}`)

@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 import illustrationImg from '../assets/images/illustration.svg'
 import logoImg from '../assets/images/logo.svg'
@@ -32,7 +33,7 @@ export function NewRoom(): JSX.Element {
 
     } catch (error) {
       console.log(error)
-      alert('Failed to create room.')
+      toast.error('Não foi possível criar uma sala')
     }
   }
 

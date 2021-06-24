@@ -1,5 +1,6 @@
 import { FormEvent, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 import { useAuth } from '../hooks/useAuth'
 import { database } from '../services/firebase'
@@ -75,7 +76,7 @@ export function Room(): JSX.Element {
     if (newQuestion.trim() === '') return
 
     if (!user) {
-      return alert('You must be logged in.')
+      return toast.error('Faça seu login para enviar perguntas')
     }
 
     const question = {
@@ -94,7 +95,7 @@ export function Room(): JSX.Element {
 
     } catch (error) {
       console.log(error)
-      alert('Failed to register your question.')
+      toast.error('Não foi possível registrar sua pergunta')
     }
 
   }
