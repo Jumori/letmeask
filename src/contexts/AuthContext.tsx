@@ -2,6 +2,7 @@ import { createContext, ReactNode, useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
 
 import { auth, firebase } from '../services/firebase'
+import userImg from '../assets/images/user.svg'
 
 type User = {
   id: string
@@ -31,14 +32,14 @@ export function AuthContextProvider(
         if (user) {
           const { displayName, photoURL, uid } = user
 
-          if (!displayName || !photoURL) {
-            throw new Error('Missing information from Google Account.')
+          if (!displayName) {
+            throw new Error('Missing account information.')
           }
 
           setUser({
             id: uid,
             name: displayName,
-            avatar: photoURL,
+            avatar: photoURL || userImg,
           })
         }
       } catch (error) {
@@ -62,14 +63,14 @@ export function AuthContextProvider(
 
       const { displayName, photoURL, uid } = result.user
 
-      if (!displayName || !photoURL) {
-        throw new Error('Missing information from Google Account.')
+      if (!displayName) {
+        throw new Error('Missing account information.')
       }
 
       const userData = {
         id: uid,
         name: displayName,
-        avatar: photoURL,
+        avatar: photoURL || userImg,
       }
 
       setUser(userData)

@@ -2,17 +2,17 @@ import { FormEvent, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
-import illustrationImg from '../assets/images/illustration.svg'
-import logoImg from '../assets/images/logo.svg'
-import googleIconImg from '../assets/images/google-icon.svg'
+import illustrationImg from '../../assets/images/illustration.svg'
+import logoImg from '../../assets/images/logo.svg'
+import googleIconImg from '../../assets/images/google-icon.svg'
 
-import { database } from '../services/firebase'
+import { database } from '../../services/firebase'
 
-import { Button } from '../components/Button'
-import { useAuth } from '../hooks/useAuth'
-import { useTheme } from '../hooks/useTheme'
+import { Button } from '../../components/Button'
+import { useAuth } from '../../hooks/useAuth'
+import { useTheme } from '../../hooks/useTheme'
 
-import '../styles/auth.scss'
+import './styles.scss'
 
 export function Home(): JSX.Element {
   const history = useHistory()

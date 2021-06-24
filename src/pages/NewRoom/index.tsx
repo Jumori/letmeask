@@ -2,14 +2,14 @@ import { useState, FormEvent } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
-import illustrationImg from '../assets/images/illustration.svg'
-import logoImg from '../assets/images/logo.svg'
+import illustrationImg from '../../assets/images/illustration.svg'
+import logoImg from '../../assets/images/logo.svg'
 
-import { Button } from '../components/Button'
-import { useAuth } from '../hooks/useAuth'
-import { useTheme } from '../hooks/useTheme'
-import { database } from '../services/firebase'
-import '../styles/auth.scss'
+import { Button } from '../../components/Button'
+import { useAuth } from '../../hooks/useAuth'
+import { useTheme } from '../../hooks/useTheme'
+import { database } from '../../services/firebase'
+import './styles.scss'
 
 export function NewRoom(): JSX.Element {
   const { user } = useAuth()
@@ -17,7 +17,7 @@ export function NewRoom(): JSX.Element {
   const history = useHistory()
   const [newRoom, setNewRoom] = useState('')
 
-  async function handleCreateRoom (event: FormEvent) {
+  async function handleCreateRoom(event: FormEvent) {
     event.preventDefault()
 
     if (newRoom.trim() === '') return
