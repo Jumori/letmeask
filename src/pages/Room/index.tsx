@@ -4,13 +4,16 @@ import toast from 'react-hot-toast'
 
 import { useAuth } from '../../hooks/useAuth'
 import { useRoom } from '../../hooks/useRoom'
+import { useTheme } from '../../hooks/useTheme'
 import { database } from '../../services/firebase'
 
 import { Button } from '../../components/Button'
+import { SwitchTheme } from '../../components/SwitchTheme'
 import { RoomCode } from '../../components/RoomCode'
 import { Question } from '../../components/Question'
 
 import logoImg from '../../assets/images/logo.svg'
+import logoDarkImg from '../../assets/images/logo-dark.svg'
 import emptyQuestionsImg from '../../assets/images/empty-questions.svg'
 import './styles.scss'
 
@@ -26,6 +29,8 @@ export function Room(): JSX.Element {
 
   const [newQuestion, setNewQuestion] = useState('')
   const { title, questions } = useRoom(roomId)
+
+  const { theme } = useTheme()
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault()
@@ -72,11 +77,15 @@ export function Room(): JSX.Element {
   }
 
   return (
-    <div id="page-room">
+    <div id="page-room" className={`${theme}-theme`}>
       <header>
         <div className="content">
-          <img src={logoImg} alt="Letmeask" onClick={() => history.push('/')} />
-          <RoomCode code={roomId} />
+          <img src={theme === 'light' ? logoImg : logoDarkImg} alt="Letmeask" onClick={() => history.push('/')} />
+
+          <div>
+            <RoomCode code={roomId} theme={`${theme}-theme`} />
+            <SwitchTheme />
+          </div>
         </div>
       </header>
 
@@ -118,6 +127,7 @@ export function Room(): JSX.Element {
                   key={question.id}
                   content={question.content}
                   author={question.author}
+                  theme={`${theme}-theme`}
                 >
                   <button
                     className={`like-button ${question.likeId ? 'liked' : ''}`}

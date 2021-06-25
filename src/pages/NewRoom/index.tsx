@@ -4,8 +4,11 @@ import toast from 'react-hot-toast'
 
 import illustrationImg from '../../assets/images/illustration.svg'
 import logoImg from '../../assets/images/logo.svg'
+import logoDarkImg from '../../assets/images/logo-dark.svg'
 
 import { Button } from '../../components/Button'
+import { SwitchTheme } from '../../components/SwitchTheme'
+
 import { useAuth } from '../../hooks/useAuth'
 import { useTheme } from '../../hooks/useTheme'
 import { database } from '../../services/firebase'
@@ -38,7 +41,7 @@ export function NewRoom(): JSX.Element {
   }
 
   return (
-    <div id="page-auth" className={`theme-${theme}`}>
+    <div id="page-new-room" className={`${theme}-theme`}>
       <aside>
         <img src={illustrationImg} alt="Ilustração simbolizando perguntas e respostas" />
         <strong>Crie salas de Q&amp;A ao-vivo</strong>
@@ -46,8 +49,11 @@ export function NewRoom(): JSX.Element {
       </aside>
 
       <main>
+        <div className="toggle-theme-container">
+          <SwitchTheme />
+        </div>
         <div className="main-content">
-          <img src={logoImg} alt="Letmeask" />
+          <img src={theme === 'light' ? logoImg : logoDarkImg} alt="Letmeask" />
           <h2>Criar uma nova sala</h2>
           <form onSubmit={handleCreateRoom}>
             <input

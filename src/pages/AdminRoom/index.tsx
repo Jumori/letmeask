@@ -3,13 +3,16 @@ import toast from 'react-hot-toast'
 
 // import { useAuth } from '../../hooks/useAuth'
 import { useRoom } from '../../hooks/useRoom'
+import { useTheme } from '../../hooks/useTheme'
 import { database } from '../../services/firebase'
 
 import { Button } from '../../components/Button'
+import { SwitchTheme } from '../../components/SwitchTheme'
 import { RoomCode } from '../../components/RoomCode'
 import { Question } from '../../components/Question'
 
 import logoImg from '../../assets/images/logo.svg'
+import logoDarkImg from '../../assets/images/logo-dark.svg'
 import emptyQuestionsImg from '../../assets/images/empty-questions.svg'
 import './styles.scss'
 
@@ -24,6 +27,8 @@ export function AdminRoom(): JSX.Element {
   const roomId = params.id
 
   const { title, questions } = useRoom(roomId)
+
+  const { theme } = useTheme()
 
   async function handleEndRoom() {
     try {
@@ -54,14 +59,15 @@ export function AdminRoom(): JSX.Element {
   }
 
   return (
-    <div id="page-room">
+    <div id="page-admin-room" className={`${theme}-theme`}>
       <header>
         <div className="content">
-          <img src={logoImg} alt="Letmeask" onClick={() => history.push('/')} />
+          <img src={theme === 'light' ? logoImg : logoDarkImg} alt="Letmeask" onClick={() => history.push('/')} />
 
           <div>
-            <RoomCode code={roomId} />
-            <Button isOutlined onClick={handleEndRoom}>Encerrar sala</Button>
+            <RoomCode code={roomId} theme={`${theme}-theme`} />
+            <Button isOutlined={theme === 'light'} onClick={handleEndRoom}>Encerrar sala</Button>
+            <SwitchTheme />
           </div>
         </div>
       </header>
@@ -82,6 +88,7 @@ export function AdminRoom(): JSX.Element {
                   key={question.id}
                   content={question.content}
                   author={question.author}
+                  theme={`${theme}-theme`}
                 >
                   <button
                     type="button"

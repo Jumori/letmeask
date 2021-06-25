@@ -85,4 +85,30 @@
       }
     }
   }
+
+  &.dark-theme {
+    background: #2E2E2E;
+
+    p {
+      color:#CACACA;
+    }
+
+    footer {
+      .user-info {
+        span {
+          color: #bdbdbd;
+        }
+      }
+
+      button {
+        &.like-button {
+          color: #bdbdbd;
+        }
+
+        &.delete-button {
+          color: #bdbdbd;
+        }
+      }
+    }
+  }
 }

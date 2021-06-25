@@ -4,13 +4,16 @@ import toast from 'react-hot-toast'
 
 import illustrationImg from '../../assets/images/illustration.svg'
 import logoImg from '../../assets/images/logo.svg'
+import logoDarkImg from '../../assets/images/logo-dark.svg'
 import googleIconImg from '../../assets/images/google-icon.svg'
 
 import { database } from '../../services/firebase'
 
-import { Button } from '../../components/Button'
 import { useAuth } from '../../hooks/useAuth'
 import { useTheme } from '../../hooks/useTheme'
+
+import { Button } from '../../components/Button'
+import { SwitchTheme } from '../../components/SwitchTheme'
 
 import './styles.scss'
 
@@ -53,7 +56,7 @@ export function Home(): JSX.Element {
   }
 
   return (
-    <div id="page-auth" className={`theme-${theme}`}>
+    <div id="page-home" className={`${theme}-theme`}>
       <aside>
         <img
           src={illustrationImg}
@@ -64,8 +67,11 @@ export function Home(): JSX.Element {
       </aside>
 
       <main>
+        <div className="toggle-theme-container">
+          <SwitchTheme />
+        </div>
         <div className="main-content">
-          <img src={logoImg} alt="Letmeask" />
+          <img src={theme === 'light' ? logoImg : logoDarkImg} alt="Letmeask" />
           <button className="create-room" onClick={handleCreateRoom}>
             <img src={googleIconImg} alt="Logo do Google" />
             Crie sua sala com o Google

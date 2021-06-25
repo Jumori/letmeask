@@ -1,4 +1,6 @@
-#page-room {
+#page-admin-room {
+  min-height: 100vh;
+
   header {
     padding: 24px;
     border-bottom: 1px solid #e2e2e2;
@@ -10,13 +12,14 @@
       justify-content: space-between;
       align-items: center;
 
-      >img {
+      > img {
         max-height: 45px;
         cursor: pointer;
       }
 
       > div {
         display: flex;
+        align-items: center;
         gap: 16px;
 
         button {
@@ -148,6 +151,45 @@
       span {
         font-size: 14px;
         text-align: center;
+      }
+    }
+  }
+
+  &.dark-theme {
+    background: #272727;
+
+    header {
+      border-bottom: 1px solid #3F3F3F;
+    }
+
+    main {
+      .room-title {
+        h1 {
+          color: #ABABAB;
+        }
+      }
+
+      form {
+        textarea {
+          background: #2E2E2E;
+          color: #CACACA;
+        }
+
+        .form-footer {
+          .user-info {
+            span {
+              color: #bdbdbd;
+            }
+          }
+        }
+      }
+
+      .empty-questions {
+
+        strong,
+        span {
+          color: #bdbdbd;
+        }
       }
     }
   }

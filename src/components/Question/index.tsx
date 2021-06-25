@@ -8,11 +8,12 @@ type QuestionProps = {
     avatar: string;
   }
   children?: ReactNode;
+  theme?: string;
 }
 
-export function Question({ content, author, children }: QuestionProps): JSX.Element {
+export function Question({ content, author, children, theme = '' }: QuestionProps): JSX.Element {
   return (
-    <div className="question">
+    <div className={`question ${theme}`}>
       <p>{content}</p>
       <footer>
         <div className="user-info">
