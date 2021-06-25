@@ -18,6 +18,7 @@ export function Modal({ children, isOpen, onModalClose, theme = 'light' }: Modal
       isOpen={isOpen}
       onRequestClose={onModalClose}
       portalClassName={`ReactModalPortal custom-modal ${theme}-theme`}
+      closeTimeoutMS={200}
     >
       {children}
     </ReactModal>

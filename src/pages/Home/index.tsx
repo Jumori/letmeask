@@ -1,6 +1,8 @@
-import { FormEvent, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as Yup from 'yup'
 
 import illustrationImg from '../../assets/images/illustration.svg'
 import logoImg from '../../assets/images/logo.svg'
@@ -17,12 +19,21 @@ import { SwitchTheme } from '../../components/SwitchTheme'
 
 import './styles.scss'
 
+type FormData = {
+  roomCode: string;
+}
+
+const schema = Yup.object().shape({
+  roomCode: Yup.string().required('Código obrigatório')
+})
+
 export function Home(): JSX.Element {
   const history = useHistory()
   const { user, signInWithGoogle } = useAuth()
   const { theme } = useTheme()
-
-  const [roomCode, setRoomCode] = useState('')
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
+  })
 
   async function handleCreateRoom() {
     if (user) {
@@ -43,13 +54,9 @@ export function Home(): JSX.Element {
     }
   }
 
-  async function handleJoinRoom(event: FormEvent) {
-    event.preventDefault()
-
-    if (roomCode.trim() === '') return
-
+  async function handleJoinRoom(data: FormData) {
     try {
-      const roomRef = await database.ref(`rooms/${roomCode}`).get()
+      const roomRef = await database.ref(`rooms/${data.roomCode}`).get()
 
       if (!roomRef.exists()) {
         return toast.error('Sala inválida')
@@ -59,12 +66,11 @@ export function Home(): JSX.Element {
         return toast.error('Sala já encerrada')
       }
 
-      history.push(`/rooms/${roomCode}`)
+      history.push(`/rooms/${data.roomCode}`)
     } catch (error) {
       console.log(error)
       toast.error('Não foi possível acessar sala')
     }
-
   }
 
   return (
@@ -91,13 +97,14 @@ export function Home(): JSX.Element {
 
           <div className="separator">ou entre em uma sala</div>
 
-          <form onSubmit={handleJoinRoom}>
+          <form onSubmit={handleSubmit(handleJoinRoom)}>
             <input
               type="text"
               placeholder="Digite o código da sala"
-              onChange={event => setRoomCode(event.target.value)}
-              value={roomCode}
+              {...register('roomCode')}
+              className={`${errors.roomCode ? 'field-error' : ''}`}
             />
+            {errors.roomCode && <span className="form-error">{errors.roomCode.message}</span>}
 
             <Button type="submit">Entrar na sala</Button>
           </form>

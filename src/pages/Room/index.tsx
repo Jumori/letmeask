@@ -1,6 +1,8 @@
-import { FormEvent, useState } from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as Yup from 'yup'
 
 import { useAuth } from '../../hooks/useAuth'
 import { useRoom } from '../../hooks/useRoom'
@@ -21,16 +23,31 @@ type RoomParams = {
   id: string;
 }
 
+type FormData = {
+  newQuestion: string;
+}
+
+const schema = Yup.object().shape({
+  newQuestion: Yup
+    .string()
+    .required('Pergunta obrigatória')
+    .min(3, 'Pergunta deve ter no mínimo 3 caracteres')
+    .max(50, 'Pergunta deve ter no máximo 20 caracteres')
+})
+
 export function Room(): JSX.Element {
-  const { user, signInWithGoogle } = useAuth()
   const history = useHistory()
   const params = useParams<RoomParams>()
   const roomId = params.id
 
-  const [newQuestion, setNewQuestion] = useState('')
+  const { user, signInWithGoogle } = useAuth()
   const { title, questions } = useRoom(roomId)
-
   const { theme } = useTheme()
+
+  const formResolver = {
+    resolver: yupResolver(schema),
+  }
+  const { register, handleSubmit, reset, formState: { errors } } = useForm(formResolver)
 
   async function handleSignIn() {
     try {
@@ -44,17 +61,13 @@ export function Room(): JSX.Element {
     }
   }
 
-  async function handleSendQuestion(event: FormEvent) {
-    event.preventDefault()
-
-    if (newQuestion.trim() === '') return
-
+  async function handleSendQuestion(data: FormData) {
     if (!user) {
       return toast.error('Faça seu login para enviar perguntas')
     }
 
     const question = {
-      content: newQuestion,
+      content: data.newQuestion,
       author: {
         name: user.name,
         avatar: user.avatar,
@@ -65,7 +78,7 @@ export function Room(): JSX.Element {
 
     try {
       await database.ref(`rooms/${roomId}/questions`).push(question)
-      setNewQuestion('')
+      reset(formResolver)
       toast.success('Pergunta enviada!')
     } catch (error) {
       console.log(error)
@@ -109,12 +122,13 @@ export function Room(): JSX.Element {
           ) : questions.length > 1 && <span>{questions.length} perguntas</span>}
         </div>
 
-        <form onSubmit={handleSendQuestion}>
+        <form onSubmit={handleSubmit(handleSendQuestion)}>
           <textarea
             placeholder="O que você quer perguntas?"
-            onChange={event => setNewQuestion(event.target.value)}
-            value={newQuestion}
+            {...register('newQuestion')}
+            className={`${errors.newQuestion ? 'field-error' : ''}`}
           />
+          {errors.newQuestion && <span className="form-error">{errors.newQuestion.message}</span>}
 
           <div className="form-footer">
             {user ? (

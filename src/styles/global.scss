@@ -12,3 +12,26 @@ body {
 body, input, button, textarea {
   font: 400 16px 'Roboto', sans-serif;
 }
+
+input,
+textarea {
+  &.field-error {
+    border: 1px solid #F44336 !important;
+
+    &:focus {
+      box-shadow: 0 0 3pt 0.5pt #F44336;
+    }
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 3pt 0.5pt #835AFD;
+  }
+}
+
+.form-error {
+  display: flex;
+  color: #F44336;
+  font-size: 12px;
+  margin-top: 4px;
+}
