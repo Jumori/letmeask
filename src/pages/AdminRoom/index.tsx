@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
@@ -8,12 +9,15 @@ import { database } from '../../services/firebase'
 
 import { Button } from '../../components/Button'
 import { SwitchTheme } from '../../components/SwitchTheme'
+import { Modal } from '../../components/Modal'
 import { RoomCode } from '../../components/RoomCode'
 import { Question } from '../../components/Question'
 
 import logoImg from '../../assets/images/logo.svg'
 import logoDarkImg from '../../assets/images/logo-dark.svg'
 import emptyQuestionsImg from '../../assets/images/empty-questions.svg'
+import trashImg from '../../assets/images/trash.svg'
+import xCircleImg from '../../assets/images/x-circle.svg'
 import './styles.scss'
 
 type AdminRoomParams = {
@@ -25,6 +29,9 @@ export function AdminRoom(): JSX.Element {
   const history = useHistory()
   const params = useParams<AdminRoomParams>()
   const roomId = params.id
+
+  const [questionIdModalOpen, setQuestionIdModalOpen] = useState<string | undefined>()
+  const [endRoomModalOpen, setEndRoomModalOpen] = useState(false)
 
   const { title, questions } = useRoom(roomId)
 
@@ -44,14 +51,14 @@ export function AdminRoom(): JSX.Element {
     }
   }
 
-  async function handleDeleteQuestion(questionId: string) {
-    // TODO implement react-modal for confirmation
-    try {
-      if (window.confirm('Tem certeza que você deseja excluir esta pergunta?')) {
-        await database.ref(`rooms/${roomId}/questions/${questionId}`).remove()
-        toast.success('Pergunta excluída com sucesso!')
-      }
+  async function handleDeleteQuestion(questionId: string | undefined) {
+    if (!questionId) return
 
+    try {
+      await database.ref(`rooms/${roomId}/questions/${questionId}`).remove()
+
+      toast.success('Pergunta excluída com sucesso!')
+      setQuestionIdModalOpen(undefined)
     } catch (error) {
       console.log(error)
       toast.error('Não foi possível excluir pergunta')
@@ -66,7 +73,7 @@ export function AdminRoom(): JSX.Element {
 
           <div>
             <RoomCode code={roomId} theme={`${theme}-theme`} />
-            <Button isOutlined={theme === 'light'} onClick={handleEndRoom}>Encerrar sala</Button>
+            <Button isOutlined={theme === 'light'} onClick={() => setEndRoomModalOpen(true)}>Encerrar sala</Button>
             <SwitchTheme />
           </div>
         </div>
@@ -93,7 +100,7 @@ export function AdminRoom(): JSX.Element {
                   <button
                     type="button"
                     className="delete-button"
-                    onClick={() => handleDeleteQuestion(question.id)}
+                    onClick={() => setQuestionIdModalOpen(question.id)}
                   >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M3 5.99988H5H21" stroke="#737380" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -113,6 +120,53 @@ export function AdminRoom(): JSX.Element {
           </div>
         ) }
       </main>
+
+      <Modal
+        isOpen={!!questionIdModalOpen}
+        onModalClose={() => setQuestionIdModalOpen(undefined)}
+        theme={theme}
+      >
+        <div className="body">
+          <div className="body-container">
+            <img src={trashImg} alt="Ícone de lixeira" />
+            <h2>Excluir pergunta</h2>
+            <p>Tem certeza que você deseja excluir esta pergunta?</p>
+          </div>
+          <div className="action-button-container">
+            <button
+              className="action-button secondary"
+              onClick={() => setQuestionIdModalOpen(undefined)}
+            >Cancelar</button>
+            <button
+              className="action-button primary"
+              onClick={() => handleDeleteQuestion(questionIdModalOpen)}
+            >Sim, excluir</button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        isOpen={endRoomModalOpen}
+        onModalClose={() => setEndRoomModalOpen(false)}
+        theme={theme}
+      >
+        <div className="body">
+          <div className="body-container">
+            <img src={xCircleImg} alt="Ícone de exclusão" />
+            <h2>Encerrar sala</h2>
+            <p>Tem certeza que você deseja encerrar esta sala?</p>
+          </div>
+          <div className="action-button-container">
+            <button
+              className="action-button secondary"
+              onClick={() => setEndRoomModalOpen(false)}
+            >Cancelar</button>
+            <button
+              className="action-button primary"
+              onClick={handleEndRoom}
+            >Sim, encerrar</button>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }

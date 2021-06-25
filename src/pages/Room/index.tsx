@@ -22,7 +22,7 @@ type RoomParams = {
 }
 
 export function Room(): JSX.Element {
-  const { user } = useAuth()
+  const { user, signInWithGoogle } = useAuth()
   const history = useHistory()
   const params = useParams<RoomParams>()
   const roomId = params.id
@@ -31,6 +31,18 @@ export function Room(): JSX.Element {
   const { title, questions } = useRoom(roomId)
 
   const { theme } = useTheme()
+
+  async function handleSignIn() {
+    try {
+      const userStatus = await signInWithGoogle()
+      if (!userStatus) {
+        throw new Error('Invalid user')
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error('Não foi possível realizar login')
+    }
+  }
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault()
@@ -112,7 +124,7 @@ export function Room(): JSX.Element {
               </div>
             ) : (
               <span>
-                  Para enviar uma pergunta, <Link to="/">faça seu login</Link>
+                  Para enviar uma pergunta, <button onClick={handleSignIn}>faça seu login</button>
               </span>
             )}
             <Button type="submit" disabled={!user}>Enviar pergunta</Button>

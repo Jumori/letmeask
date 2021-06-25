@@ -1,0 +1,139 @@
+.ReactModalPortal {
+  .ReactModal__Overlay {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+  .ReactModal__Overlay--after-open {
+    opacity: 1;
+  }
+
+  .ReactModal__Overlay--before-close {
+    opacity: 0;
+  }
+
+  .ReactModal__Content {
+    inset: 0 !important;
+    top: 50% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin-right: -50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 590px !important;
+    height: 362px !important;
+    border: 0 !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: #fff;
+  }
+
+  &.dark-theme {
+    .ReactModal__Content {
+      background: #272727 !important;
+    }
+  }
+}
+
+.custom-modal {
+  .body {
+    flex: 1;
+    height: 100%;
+    padding: 16px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    .body-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+
+      > img {
+        height: 48px;
+      }
+
+      h2 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      p {
+        color: #737380;
+        font-size: 16px;
+      }
+    }
+
+    .action-button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+
+      .action-button {
+        height: 50px;
+        width: 160px;
+        border-radius: 8px;
+        font-weight: 500;
+        padding: 0 32px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        cursor: pointer;
+        border: 0;
+
+        transition: filter 0.2s;
+
+        &.primary {
+          background: #E73F5D;
+          color: #fff;
+        }
+
+        &.secondary {
+          background: #DBDCDD;
+          color: #737380;
+        }
+
+        img {
+          margin-right: 8px;
+        }
+
+        &.outlined {
+          background: #fff;
+          border: 1px solid #835afd;
+          color: #835afd;
+        }
+
+        &:not(:disabled):hover {
+          filter: brightness(0.9);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed
+        }
+      }
+    }
+  }
+
+  &.dark-theme {
+    .body {
+      .body-container {
+        h2 {
+          color: #ABABAB;
+        }
+
+        p {
+          color: #bdbdbd;
+        }
+      }
+    }
+  }
+}

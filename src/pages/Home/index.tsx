@@ -28,12 +28,18 @@ export function Home(): JSX.Element {
     if (user) {
       history.push('/rooms/new')
     } else {
-      const userStatus = await signInWithGoogle()
-      if (!userStatus) {
-        return toast.error('Não foi possível realizar login')
-      }
+      try {
+        const userStatus = await signInWithGoogle()
+        if (!userStatus) {
+          throw new Error('Invalid user')
+        }
 
-      history.push('/rooms/new')
+        history.push('/rooms/new')
+
+      } catch (error) {
+        console.log(error)
+        toast.error('Não foi possível realizar login')
+      }
     }
   }
 
@@ -42,17 +48,23 @@ export function Home(): JSX.Element {
 
     if (roomCode.trim() === '') return
 
-    const roomRef = await database.ref(`rooms/${roomCode}`).get()
+    try {
+      const roomRef = await database.ref(`rooms/${roomCode}`).get()
 
-    if (!roomRef.exists()) {
-      return toast.error('Sala inválida')
+      if (!roomRef.exists()) {
+        return toast.error('Sala inválida')
+      }
+
+      if (roomRef.val().endedAt) {
+        return toast.error('Sala já encerrada')
+      }
+
+      history.push(`/rooms/${roomCode}`)
+    } catch (error) {
+      console.log(error)
+      toast.error('Não foi possível acessar sala')
     }
 
-    if (roomRef.val().endedAt) {
-      return toast.error('Sala já encerrada')
-    }
-
-    history.push(`/rooms/${roomCode}`)
   }
 
   return (
