@@ -31,6 +31,7 @@
     "@typescript-eslint/no-use-before-define": ["error"],
     "import/no-duplicates": "off",
     "react/react-in-jsx-scope": "off",
-    "space-before-function-paren": "off"
+    "space-before-function-paren": "off",
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }

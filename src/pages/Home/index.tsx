@@ -45,6 +45,10 @@ export function Home(): JSX.Element {
       return toast.error('Sala inválida')
     }
 
+    if (roomRef.val().endedAt) {
+      return toast.error('Sala já encerrada')
+    }
+
     history.push(`/rooms/${roomCode}`)
   }
 
