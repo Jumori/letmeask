@@ -3,12 +3,12 @@
 </p>
 
 <p align="center">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/Jumori/podcastr?color=%2304D361">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/Jumori/letmeask?color=%2304D361">
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/Jumori/podcastr">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/Jumori/letmeask">
 
-  <a href="https://github.com/Jumori/podcastr/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Jumori/podcastr">
+  <a href="https://github.com/Jumori/letmeask/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Jumori/letmeask">
   </a>
 </p>
 
