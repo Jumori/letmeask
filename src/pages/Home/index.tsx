@@ -66,7 +66,11 @@ export function Home(): JSX.Element {
         return toast.error('Sala já encerrada')
       }
 
-      history.push(`/rooms/${data.roomCode}`)
+      if (user?.id === roomRef.val().authorId) {
+        history.push(`/admin/rooms/${data.roomCode}`)
+      } else {
+        history.push(`/rooms/${data.roomCode}`)
+      }
     } catch (error) {
       console.log(error)
       toast.error('Não foi possível acessar sala')
