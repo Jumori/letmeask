@@ -80,7 +80,7 @@
           }
         }
 
-        &:hover {
+        &:not(:disabled):hover {
           filter: brightness(0.8);
         }
       }
