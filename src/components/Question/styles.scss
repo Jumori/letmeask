@@ -8,6 +8,19 @@
     margin-top: 8px;
   }
 
+  &.highlighted {
+    background: #f4f0ff;
+    border: 1px solid #835afd;
+
+    footer .user-info span {
+      color:  #29292e;
+    }
+  }
+
+  &.answered {
+    background: #DBDCDD;
+  }
+
   p {
     color: #29292e;
   }
@@ -42,6 +55,11 @@
       }
     }
 
+    > div {
+      display: flex;
+      gap: 16px;
+    }
+
     button {
       border: 0;
       background: transparent;
@@ -67,6 +85,54 @@
         }
       }
 
+      &.check-button {
+        color: #737380;
+        transition: color 0.2s;
+
+        svg path {
+          transition: stroke 0.2s;
+        }
+
+        &.answered {
+          svg circle,
+          svg path {
+            stroke: #835afd;
+          }
+        }
+
+        &:hover {
+          color: #835afd;
+
+          svg path {
+            stroke: #835afd;
+          }
+        }
+      }
+
+      &.highlight-button {
+        color: #737380;
+        transition: color 0.2s;
+
+        svg path {
+          transition: stroke 0.2s;
+        }
+
+        &.highlighted {
+          svg path {
+            stroke: #835afd;
+            fill: #835afd;
+          }
+        }
+
+        &:hover {
+          color: #835afd;
+
+          svg path {
+            stroke: #835afd;
+          }
+        }
+      }
+
       &.delete-button {
         color: #737380;
         transition: color 0.2s;
@@ -88,6 +154,10 @@
 
   &.dark-theme {
     background: #2E2E2E;
+
+    &.answered {
+      opacity: 0.5;
+    }
 
     p {
       color:#CACACA;

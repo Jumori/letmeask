@@ -153,6 +153,8 @@ export function Room(): JSX.Element {
                   key={question.id}
                   content={question.content}
                   author={question.author}
+                  isAnswered={question.isAnswered}
+                  isHighlighted={question.isHighlighted}
                   theme={`${theme}-theme`}
                 >
                   <button
