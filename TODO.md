@@ -1,0 +1,9 @@
+- [x] Confirmation as modal - https://github.com/reactjs/react-modal
+- [x] Form validation with feedback for user and disabling button when necessary
+- [x] Dark theme
+- [] Responsive layout
+- [] User logout
+- [] Loading view before content show
+- [] Middlewares per page - extra validation before render
+- [] PWA
+- [] Styled components

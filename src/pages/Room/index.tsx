@@ -124,7 +124,7 @@ export function Room(): JSX.Element {
 
         <form onSubmit={handleSubmit(handleSendQuestion)}>
           <textarea
-            placeholder="O que você quer perguntas?"
+            placeholder="O que você quer perguntar?"
             {...register('newQuestion')}
             className={`${errors.newQuestion ? 'field-error' : ''}`}
           />
